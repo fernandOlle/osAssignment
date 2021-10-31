@@ -90,30 +90,6 @@ int main(int argc, char *argv[])
 /* aqui ordena ao contrario */
     sortDescending(burst_time, process_name, process, &line_count);
 
-
-    // i = 0, j = 0;
-    // for (i = 0; i < number_of_processes; i++)
-    // {
-    //     pos = i;
-    //     for (j = i + 1; j < number_of_processes; j++)
-    //     {
-    //         if (burst_time[j] > burst_time[pos])
-    //             pos = j;
-    //     }
-
-    //     temp = burst_time[i];
-    //     burst_time[i] = burst_time[pos];
-    //     burst_time[pos] = temp;
-
-    //     strcpy(temps, process_name[i]);
-    //     strcpy(process_name[i], process_name[pos]);
-    //     strcpy(process_name[pos], temps);
-
-    //     temp = process[i];
-    //     process[i] = process[pos];
-    //     process[pos] = temp;
-    // }
-
     processors_count = 0;
     while (processors_count < n_cores)
     {
