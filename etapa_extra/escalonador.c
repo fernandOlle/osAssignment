@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
-#include "funcoes_escanlonador.h"
+#include "funcoes_escalonador.h"
 
 int main(int argc, char *argv[])
 {
