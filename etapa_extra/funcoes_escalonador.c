@@ -1,6 +1,7 @@
+#include <stdio.h>
 #include <string.h>
 
-void ordenaCrescente(int *tempo_execucao, char (*nome_processos)[10], int *processo, int *num_linhas) 
+void ordenaCrescente(int *tempo_execucao, char (*nome_processos)[10], int *processo, int *num_linhas)
 {
     int pos, temp = 0;
 
@@ -31,7 +32,7 @@ void ordenaCrescente(int *tempo_execucao, char (*nome_processos)[10], int *proce
     }
 }
 
-void ordenaDecrescente(int *tempo_execucao, char (*nome_processos)[10], int *processo, int *num_linhas) 
+void ordenaDecrescente(int *tempo_execucao, char (*nome_processos)[10], int *processo, int *num_linhas)
 {
     int pos, temp = 0;
     int numero_de_processos = *num_linhas;
@@ -59,4 +60,24 @@ void ordenaDecrescente(int *tempo_execucao, char (*nome_processos)[10], int *pro
         processo[i] = processo[pos];
         processo[pos] = temp;
     }
+}
+
+FILE *separaAsTarefasImprimeArquivo(int *tempo_execucao, char (*nome_processos)[10], int *num_linhas, int n_nucleos, const char *nome_arquivo)
+{
+    FILE *f_saida = fopen(nome_arquivo, "w");
+    int num_processadores = 0;
+    while (num_processadores < n_nucleos)
+    {
+        int proc_inicio = 0, proc_fim = 0;
+        fprintf(f_saida, "Processador_%d\n", num_processadores + 1);
+        for (int i = 0 + num_processadores; i < *num_linhas; i = i + n_nucleos)
+        {
+            proc_fim = tempo_execucao[i] + proc_inicio;
+            fprintf(f_saida, "%s;%d;%d\n", nome_processos[i], proc_inicio, proc_fim);
+            proc_inicio = proc_fim;
+        }
+        fprintf(f_saida, "\n");
+        num_processadores++;
+    }
+    return f_saida;
 }

@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <pthread.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
@@ -56,48 +55,13 @@ int main(int argc, char *argv[])
     numero_processos = num_linhas;
 
     i = 0, j = 0;
-
-    ordenaCrescente(tempo_execucao, nome_processo, processo, &num_linhas);
-
-    FILE *f_saida1 = fopen("menor_primeiro.txt", "w");
-    FILE *f_saida2 = fopen("maior_primeiro.txt", "w");
-
-    int num_processadores = 0;
     int n_nucleos = atoi(argv[2]);
 
-    while (num_processadores < n_nucleos)
-    {
-        int proc_inicio = 0, proc_fim = 0;
-        fprintf(f_saida1, "Processador_%d\n", num_processadores + 1);
-        for (i = 0 + num_processadores; i < num_linhas; i = i + n_nucleos)
-        {
-            proc_fim = tempo_execucao[i] + proc_inicio;
-            fprintf(f_saida1, "%s;%d;%d\n", nome_processo[i], proc_inicio, proc_fim);
-            proc_inicio = proc_fim;
-        }
-        fprintf(f_saida1, "\n");
-        num_processadores++;
-    }
+    ordenaCrescente(tempo_execucao, nome_processo, processo, &num_linhas);
+    FILE *f_saida1 = separaAsTarefasImprimeArquivo(tempo_execucao, nome_processo, &num_linhas, n_nucleos, "menor_primeiro.txt");
 
-    num_processadores = n_nucleos;
-
-/* aqui ordena ao contrario */
     ordenaDecrescente(tempo_execucao, nome_processo, processo, &num_linhas);
-
-    num_processadores = 0;
-    while (num_processadores < n_nucleos)
-    {
-        int proc_inicio = 0, proc_fim = 0;
-        fprintf(f_saida2, "Processador_%d\n", num_processadores + 1);
-        for (i = 0 + num_processadores; i < num_linhas; i = i + n_nucleos)
-        {
-            proc_fim = tempo_execucao[i] + proc_inicio;
-            fprintf(f_saida2, "%s;%d;%d\n", nome_processo[i], proc_inicio, proc_fim);
-            proc_inicio = proc_fim;
-        }
-        fprintf(f_saida2, "\n");
-        num_processadores++;
-    }
+    FILE *f_saida2 = separaAsTarefasImprimeArquivo(tempo_execucao, nome_processo, &num_linhas, n_nucleos, "maior_primeiro.txt");
 
     fclose(f_saida1);
     fclose(f_saida2);
